@@ -1,0 +1,28 @@
+name: R Autograding
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  autograding-job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup R environment
+      uses: r-lib/actions/setup-r@v1
+
+    - name: Install R dependencies
+      run: |
+        Rscript -e 'install.packages("testthat", repos="http://cran.rstudio.com")'
+        # Añade aquí más dependencias si es necesario
+
+    - name: Run autograding tests
+      run: |
+        chmod +x ./run.sh
+        ./run.sh
